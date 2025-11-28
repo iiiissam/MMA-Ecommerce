@@ -1,0 +1,104 @@
+openapi: 3.0.0
+info:
+  title: Clothes Store API
+  version: 1.0.0
+  description: API documentation for the e-commerce clothing store
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Local development server
+
+paths:
+  /products/:
+    get:
+      summary: List products
+      tags: [Products]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: price_min
+          in: query
+          schema:
+            type: number
+        - name: price_max
+          in: query
+          schema:
+            type: number
+      responses:
+        '200':
+          description: List of products
+
+  /products/{slug}/:
+    get:
+      summary: Get product details
+      tags: [Products]
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Product details
+
+  /checkout/:
+    post:
+      summary: Guest checkout
+      tags: [Orders]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      variant_id:
+                        type: integer
+                      quantity:
+                        type: integer
+                email:
+                  type: string
+                first_name:
+                  type: string
+                last_name:
+                  type: string
+                shipping_address:
+                  type: object
+                payment_method:
+                  type: string
+      responses:
+        '201':
+          description: Order created
+        '400':
+          description: Validation error
+
+  /admin/products/:
+    get:
+      summary: List products (admin)
+      tags: [Admin]
+      security:
+        - Token: []
+      responses:
+        '200':
+          description: List of products
+    post:
+      summary: Create product (admin)
+      tags: [Admin]
+      security:
+        - Token: []
+      responses:
+        '201':
+          description: Product created
+
