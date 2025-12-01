@@ -7,11 +7,13 @@ on:
     branches: [main, develop]
 
 jobs:
-init:
+jobs:
+  init:
     runs-on: ubuntu-latest
     steps:
-      - name: Show initialization message
-        run: echo "Job init executed successfully!"
+      - name: Message d'initialisation
+        run: echo "Job init executed!"
+
   lint-backend:
     runs-on: ubuntu-latest
     steps:
