@@ -8,12 +8,12 @@ on:
 
 jobs:
 
-   init:
+  init:
     runs-on: ubuntu-latest
     steps:
       - name: Message d'initialisation
         run: echo "🎉 Job init executed successfully!"
-        
+
   lint-backend:
     runs-on: ubuntu-latest
     steps:
