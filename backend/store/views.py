@@ -571,7 +571,7 @@ def register_user(name, email, password):
         Client.objects.create(
         name=name,
         email=email,
-        password=hashed
+        password=hashed)
     )
 
     return True, "Compte enregistré"
