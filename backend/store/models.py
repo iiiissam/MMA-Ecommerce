@@ -278,3 +278,14 @@ class AuditLog(models.Model):
     def __str__(self):
         return f"{self.action_type} {self.model_name} by {self.admin_user} at {self.timestamp}"
 
+
+class Client(models.Model):
+    nom = models.CharField(max_length=100)
+    email = models.EmailField(unique=True)
+    password = models.CharField(max_length=255)
+    date_creation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.email
+
+
