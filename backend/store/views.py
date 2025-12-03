@@ -18,6 +18,8 @@ from rest_framework.throttling import UserRateThrottle
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 
 from .models import (
     Category, Product, ProductVariant, ProductImage,
@@ -554,6 +556,25 @@ def export_orders_csv(request):
     )
     
     return response
+
+
+def register_user(name, email, password):
+    # Vérifier si l'email existe déjà
+    if User.objects.filter(email=email).exists():
+        return False, "Email déjà utilisé"
+
+    # Hasher le mot de passe
+    hashed_password = make_password(password)
+
+    # Sauvegarde en base
+    User.objects.create(
+        Client.objects.create(
+        name=name,
+        email=email,
+        password=hashed
+    )
+
+    return True, "Compte enregistré"
 
 
 
