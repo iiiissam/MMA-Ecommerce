@@ -244,6 +244,48 @@ class OrderLine(models.Model):
         return f"{self.order.reference} - {self.sku_snapshot} x{self.quantity}"
 
 
+class Client(models.Model):
+    """Client model for customer accounts (educational purposes)."""
+    email = models.EmailField(unique=True, db_index=True)
+    password = models.CharField(max_length=255)  # Will store hashed password
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20, blank=True)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    last_login = models.DateTimeField(null=True, blank=True)
+    
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['email']),
+            models.Index(fields=['created_at']),
+        ]
+    
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.email})"
+    
+    @property
+    def full_name(self):
+        return f"{self.first_name} {self.last_name}"
+
+
+class ClientToken(models.Model):
+    """Token for client authentication."""
+    client = models.OneToOneField(Client, on_delete=models.CASCADE, related_name='auth_token')
+    token = models.CharField(max_length=64, unique=True, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def save(self, *args, **kwargs):
+        if not self.token:
+            self.token = uuid.uuid4().hex + uuid.uuid4().hex
+        super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"Token for {self.client.email}"
+
+
 class AuditLog(models.Model):
     """Audit log for admin actions."""
     ACTION_TYPES = [

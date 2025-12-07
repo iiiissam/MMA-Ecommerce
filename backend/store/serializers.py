@@ -3,9 +3,11 @@ Serializers for the store API.
 """
 from rest_framework import serializers
 from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password, check_password
 from .models import (
     Category, Product, ProductVariant, ProductImage,
-    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya
+    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya,
+    Client, ClientToken
 )
 
 
@@ -295,4 +297,101 @@ class AdminProductSerializer(serializers.ModelSerializer):
                 ProductCategory.objects.create(product=instance, category=category)
         
         return instance
+
+
+# Client Authentication Serializers
+class ClientSerializer(serializers.ModelSerializer):
+    """Client serializer for profile display."""
+    full_name = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Client
+        fields = ['id', 'email', 'first_name', 'last_name', 'full_name', 'phone', 'created_at']
+        read_only_fields = ['id', 'email', 'created_at']
+
+
+class ClientRegisterSerializer(serializers.Serializer):
+    """Serializer for client registration."""
+    email = serializers.EmailField()
+    password = serializers.CharField(min_length=6, write_only=True)
+    password_confirm = serializers.CharField(min_length=6, write_only=True)
+    first_name = serializers.CharField(max_length=100)
+    last_name = serializers.CharField(max_length=100)
+    phone = serializers.CharField(max_length=20, required=False, allow_blank=True)
+    
+    def validate_email(self, value):
+        """Check email is unique."""
+        if Client.objects.filter(email=value.lower()).exists():
+            raise serializers.ValidationError("Un compte avec cet email existe déjà.")
+        return value.lower()
+    
+    def validate(self, data):
+        """Check passwords match."""
+        if data['password'] != data['password_confirm']:
+            raise serializers.ValidationError({"password_confirm": "Les mots de passe ne correspondent pas."})
+        return data
+    
+    def create(self, validated_data):
+        """Create new client with hashed password."""
+        validated_data.pop('password_confirm')
+        validated_data['password'] = make_password(validated_data['password'])
+        client = Client.objects.create(**validated_data)
+        # Create auth token
+        ClientToken.objects.create(client=client)
+        return client
+
+
+class ClientLoginSerializer(serializers.Serializer):
+    """Serializer for client login."""
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
+    
+    def validate(self, data):
+        """Validate credentials."""
+        email = data.get('email', '').lower()
+        password = data.get('password', '')
+        
+        try:
+            client = Client.objects.get(email=email)
+        except Client.DoesNotExist:
+            raise serializers.ValidationError({"email": "Email ou mot de passe incorrect."})
+        
+        if not check_password(password, client.password):
+            raise serializers.ValidationError({"email": "Email ou mot de passe incorrect."})
+        
+        if not client.is_active:
+            raise serializers.ValidationError({"email": "Ce compte a été désactivé."})
+        
+        data['client'] = client
+        return data
+
+
+class ClientUpdateSerializer(serializers.ModelSerializer):
+    """Serializer for updating client profile."""
+    class Meta:
+        model = Client
+        fields = ['first_name', 'last_name', 'phone']
+
+
+class ClientPasswordChangeSerializer(serializers.Serializer):
+    """Serializer for changing client password."""
+    current_password = serializers.CharField(write_only=True)
+    new_password = serializers.CharField(min_length=6, write_only=True)
+    new_password_confirm = serializers.CharField(min_length=6, write_only=True)
+    
+    def validate(self, data):
+        """Validate password change."""
+        if data['new_password'] != data['new_password_confirm']:
+            raise serializers.ValidationError({"new_password_confirm": "Les mots de passe ne correspondent pas."})
+        return data
+
+
+class AdminClientSerializer(serializers.ModelSerializer):
+    """Admin serializer for viewing clients."""
+    full_name = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = Client
+        fields = ['id', 'email', 'first_name', 'last_name', 'full_name', 'phone', 'is_active', 'last_login', 'created_at']
+        read_only_fields = ['id', 'email', 'created_at', 'last_login']
 

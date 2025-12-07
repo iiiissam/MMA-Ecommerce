@@ -4,7 +4,8 @@ Django admin configuration for store models.
 from django.contrib import admin
 from .models import (
     Category, Product, ProductVariant, ProductImage,
-    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya
+    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya,
+    Client, ClientToken
 )
 
 
@@ -99,4 +100,27 @@ class AuditLogAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ProductCategory)
+
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ['email', 'first_name', 'last_name', 'phone', 'is_active', 'last_login', 'created_at']
+    list_filter = ['is_active', 'created_at']
+    search_fields = ['email', 'first_name', 'last_name', 'phone']
+    readonly_fields = ['created_at', 'updated_at', 'last_login']
+    fieldsets = (
+        ('Account Info', {
+            'fields': ('email', 'is_active', 'created_at', 'last_login')
+        }),
+        ('Personal Info', {
+            'fields': ('first_name', 'last_name', 'phone')
+        }),
+    )
+
+
+@admin.register(ClientToken)
+class ClientTokenAdmin(admin.ModelAdmin):
+    list_display = ['client', 'token', 'created_at']
+    search_fields = ['client__email', 'token']
+    readonly_fields = ['token', 'created_at']
 

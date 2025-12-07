@@ -19,17 +19,21 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from django.contrib.auth.models import User
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password, make_password
 
 from .models import (
     Category, Product, ProductVariant, ProductImage,
-    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya
+    Order, OrderLine, AuditLog, ProductCategory, Wilaya, Baladiya,
+    Client, ClientToken
 )
 from .serializers import (
     CategorySerializer, ProductSerializer, ProductDetailSerializer,
     ProductVariantSerializer, OrderSerializer,
     CheckoutSerializer, AuditLogSerializer, AdminProductSerializer,
-    WilayaSerializer, BaladiyaSerializer
+    WilayaSerializer, BaladiyaSerializer,
+    ClientSerializer, ClientRegisterSerializer, ClientLoginSerializer,
+    ClientUpdateSerializer, ClientPasswordChangeSerializer,
+    AdminClientSerializer
 )
 from .utils import log_admin_action, calculate_order_totals, process_payment
 
@@ -466,6 +470,16 @@ class AdminAuditLogViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = ['action_type', 'model_name', 'admin_user']
 
 
+class AdminClientViewSet(viewsets.ReadOnlyModelViewSet):
+    """Admin client viewset (read-only)."""
+    queryset = Client.objects.all().order_by('-created_at')
+    serializer_class = AdminClientSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter]
+    search_fields = ['email', 'first_name', 'last_name', 'phone']
+    filterset_fields = ['is_active']
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated, IsAdminUser])
 def import_products_csv(request):
@@ -558,23 +572,142 @@ def export_orders_csv(request):
     return response
 
 
-def register_user(name, email, password):
-    # Vérifier si l'email existe déjà
-    if User.objects.filter(email=email).exists():
-        return False, "Email déjà utilisé"
+# ============================================
+# Client Authentication Views (Educational)
+# ============================================
 
-    # Hasher le mot de passe
-    hashed_password = make_password(password)
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def client_register(request):
+    """Register a new client account."""
+    serializer = ClientRegisterSerializer(data=request.data)
+    if serializer.is_valid():
+        client = serializer.save()
+        token = client.auth_token.token
+        return Response({
+            'message': 'Compte créé avec succès!',
+            'token': token,
+            'client': ClientSerializer(client).data
+        }, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # Sauvegarde en base
-    User.objects.create(
-        Client.objects.create(
-        name=name,
-        email=email,
-        password=hashed)
-    )
 
-    return True, "Compte enregistré"
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def client_login(request):
+    """Login a client."""
+    serializer = ClientLoginSerializer(data=request.data)
+    if serializer.is_valid():
+        client = serializer.validated_data['client']
+        # Update last login
+        client.last_login = timezone.now()
+        client.save(update_fields=['last_login'])
+        # Get or create token
+        token, created = ClientToken.objects.get_or_create(client=client)
+        return Response({
+            'message': 'Connexion réussie!',
+            'token': token.token,
+            'client': ClientSerializer(client).data
+        })
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def client_logout(request):
+    """Logout a client (invalidate token)."""
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').replace('Token ', '')
+    if token:
+        try:
+            client_token = ClientToken.objects.get(token=token)
+            # Regenerate token to invalidate the current one
+            client_token.delete()
+            ClientToken.objects.create(client=client_token.client)
+            return Response({'message': 'Déconnexion réussie!'})
+        except ClientToken.DoesNotExist:
+            pass
+    return Response({'message': 'Déconnexion réussie!'})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def client_profile(request):
+    """Get current client profile."""
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').replace('Token ', '')
+    if not token:
+        return Response({'error': 'Token requis'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        client_token = ClientToken.objects.get(token=token)
+        return Response(ClientSerializer(client_token.client).data)
+    except ClientToken.DoesNotExist:
+        return Response({'error': 'Token invalide'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['PUT', 'PATCH'])
+@permission_classes([AllowAny])
+def client_update_profile(request):
+    """Update client profile."""
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').replace('Token ', '')
+    if not token:
+        return Response({'error': 'Token requis'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        client_token = ClientToken.objects.get(token=token)
+        serializer = ClientUpdateSerializer(client_token.client, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'message': 'Profil mis à jour!',
+                'client': ClientSerializer(client_token.client).data
+            })
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except ClientToken.DoesNotExist:
+        return Response({'error': 'Token invalide'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def client_change_password(request):
+    """Change client password."""
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').replace('Token ', '')
+    if not token:
+        return Response({'error': 'Token requis'}, status=status.HTTP_401_UNAUTHORIZED)
+    
+    try:
+        client_token = ClientToken.objects.get(token=token)
+        client = client_token.client
+        
+        serializer = ClientPasswordChangeSerializer(data=request.data)
+        if serializer.is_valid():
+            # Check current password
+            if not check_password(serializer.validated_data['current_password'], client.password):
+                return Response({'current_password': 'Mot de passe actuel incorrect.'}, status=status.HTTP_400_BAD_REQUEST)
+            
+            # Update password
+            client.password = make_password(serializer.validated_data['new_password'])
+            client.save(update_fields=['password'])
+            
+            return Response({'message': 'Mot de passe modifié avec succès!'})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    except ClientToken.DoesNotExist:
+        return Response({'error': 'Token invalide'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def client_check_auth(request):
+    """Check if client is authenticated."""
+    token = request.headers.get('Authorization', '').replace('Bearer ', '').replace('Token ', '')
+    if not token:
+        return Response({'authenticated': False})
+    
+    try:
+        client_token = ClientToken.objects.get(token=token)
+        return Response({
+            'authenticated': True,
+            'client': ClientSerializer(client_token.client).data
+        })
+    except ClientToken.DoesNotExist:
+        return Response({'authenticated': False})
 

@@ -18,6 +18,7 @@ router.register(r'admin/categories', views.AdminCategoryViewSet, basename='admin
 router.register(r'admin/products', views.AdminProductViewSet, basename='admin-product')
 router.register(r'admin/variants', views.AdminProductVariantViewSet, basename='admin-variant')
 router.register(r'admin/orders', views.AdminOrderViewSet, basename='admin-order')
+router.register(r'admin/clients', views.AdminClientViewSet, basename='admin-client')
 router.register(r'admin/audit-logs', views.AdminAuditLogViewSet, basename='admin-audit-log')
 
 urlpatterns = [
@@ -28,6 +29,15 @@ urlpatterns = [
     path('cart/validate/', views.validate_cart, name='validate-cart'),
     path('checkout/', views.checkout, name='checkout'),
     path('orders/<str:reference>/', views.get_order_by_reference, name='order-by-reference'),
+    
+    # Client Authentication (educational purposes)
+    path('auth/register/', views.client_register, name='client-register'),
+    path('auth/login/', views.client_login, name='client-login'),
+    path('auth/logout/', views.client_logout, name='client-logout'),
+    path('auth/profile/', views.client_profile, name='client-profile'),
+    path('auth/profile/update/', views.client_update_profile, name='client-update-profile'),
+    path('auth/password/change/', views.client_change_password, name='client-change-password'),
+    path('auth/check/', views.client_check_auth, name='client-check-auth'),
     
     # Admin endpoints
     path('admin/import/products-csv/', views.import_products_csv, name='import-products-csv'),
