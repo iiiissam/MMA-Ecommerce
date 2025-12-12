@@ -42,20 +42,27 @@ export default function AdminOrdersPage() {
     }
   }
 
-  if (loading) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-gray-600 text-lg">Loading...</div>
-    </div>
-  )
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-gray-600 text-lg">Loading...</div>
+      </div>
+    )
 
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/dashboard" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/dashboard"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Admin Dashboard
           </Link>
-          <Link href="/admin" className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition">
+          <Link
+            href="/admin"
+            className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition"
+          >
             Logout
           </Link>
         </div>
@@ -67,12 +74,24 @@ export default function AdminOrdersPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Reference</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Phone</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Date</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Reference
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Phone
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Total
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -85,8 +104,12 @@ export default function AdminOrdersPage() {
               ) : (
                 orders.map((order) => (
                   <tr key={order.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{order.reference}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{order.phone}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {order.reference}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {order.phone}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <select
                         value={order.status}
@@ -102,7 +125,8 @@ export default function AdminOrdersPage() {
                       </select>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                      {parseFloat(order.total).toFixed(2)} {process.env.NEXT_PUBLIC_CURRENCY || 'EUR'}
+                      {parseFloat(order.total).toFixed(2)}{' '}
+                      {process.env.NEXT_PUBLIC_CURRENCY || 'EUR'}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                       {new Date(order.created_at).toLocaleDateString()}
@@ -125,4 +149,3 @@ export default function AdminOrdersPage() {
     </div>
   )
 }
-

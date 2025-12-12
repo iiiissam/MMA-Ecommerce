@@ -9,7 +9,7 @@ export default function ProfilePage() {
   const router = useRouter()
   const { client, token, isAuthenticated, updateClient, logout } = useAuthStore()
   const [activeTab, setActiveTab] = useState<'profile' | 'password'>('profile')
-  
+
   // Profile form
   const [profileData, setProfileData] = useState({
     first_name: '',
@@ -19,7 +19,7 @@ export default function ProfilePage() {
   const [profileLoading, setProfileLoading] = useState(false)
   const [profileSuccess, setProfileSuccess] = useState('')
   const [profileError, setProfileError] = useState('')
-  
+
   // Password form
   const [passwordData, setPasswordData] = useState({
     current_password: '',
@@ -45,7 +45,7 @@ export default function ProfilePage() {
   const handleProfileSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!token) return
-    
+
     setProfileLoading(true)
     setProfileError('')
     setProfileSuccess('')
@@ -64,7 +64,7 @@ export default function ProfilePage() {
   const handlePasswordSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!token) return
-    
+
     setPasswordLoading(true)
     setPasswordError('')
     setPasswordSuccess('')
@@ -76,7 +76,9 @@ export default function ProfilePage() {
     } catch (err: any) {
       try {
         const errors = JSON.parse(err.message)
-        setPasswordError(errors.current_password || errors.new_password || 'Erreur lors du changement')
+        setPasswordError(
+          errors.current_password || errors.new_password || 'Erreur lors du changement'
+        )
       } catch {
         setPasswordError('Erreur lors du changement de mot de passe')
       }
@@ -166,7 +168,9 @@ export default function ProfilePage() {
                     <input
                       type="text"
                       value={profileData.first_name}
-                      onChange={(e) => setProfileData({ ...profileData, first_name: e.target.value })}
+                      onChange={(e) =>
+                        setProfileData({ ...profileData, first_name: e.target.value })
+                      }
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition text-gray-900 bg-white"
                     />
@@ -176,7 +180,9 @@ export default function ProfilePage() {
                     <input
                       type="text"
                       value={profileData.last_name}
-                      onChange={(e) => setProfileData({ ...profileData, last_name: e.target.value })}
+                      onChange={(e) =>
+                        setProfileData({ ...profileData, last_name: e.target.value })
+                      }
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition text-gray-900 bg-white"
                     />
@@ -218,22 +224,30 @@ export default function ProfilePage() {
                 )}
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Mot de passe actuel</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Mot de passe actuel
+                  </label>
                   <input
                     type="password"
                     value={passwordData.current_password}
-                    onChange={(e) => setPasswordData({ ...passwordData, current_password: e.target.value })}
+                    onChange={(e) =>
+                      setPasswordData({ ...passwordData, current_password: e.target.value })
+                    }
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition text-gray-900 bg-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Nouveau mot de passe</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Nouveau mot de passe
+                  </label>
                   <input
                     type="password"
                     value={passwordData.new_password}
-                    onChange={(e) => setPasswordData({ ...passwordData, new_password: e.target.value })}
+                    onChange={(e) =>
+                      setPasswordData({ ...passwordData, new_password: e.target.value })
+                    }
                     required
                     minLength={6}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition text-gray-900 bg-white"
@@ -242,11 +256,15 @@ export default function ProfilePage() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Confirmer le nouveau mot de passe</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Confirmer le nouveau mot de passe
+                  </label>
                   <input
                     type="password"
                     value={passwordData.new_password_confirm}
-                    onChange={(e) => setPasswordData({ ...passwordData, new_password_confirm: e.target.value })}
+                    onChange={(e) =>
+                      setPasswordData({ ...passwordData, new_password_confirm: e.target.value })
+                    }
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 transition text-gray-900 bg-white"
                   />
@@ -282,4 +300,3 @@ export default function ProfilePage() {
     </div>
   )
 }
-

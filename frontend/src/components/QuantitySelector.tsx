@@ -6,11 +6,7 @@ interface QuantitySelectorProps {
   onChange: (quantity: number) => void
 }
 
-export default function QuantitySelector({
-  quantity,
-  max,
-  onChange,
-}: QuantitySelectorProps) {
+export default function QuantitySelector({ quantity, max, onChange }: QuantitySelectorProps) {
   const handleDecrease = () => {
     if (quantity > 1) onChange(quantity - 1)
   }
@@ -50,9 +46,7 @@ export default function QuantitySelector({
         >
           +
         </button>
-        {max > 0 && (
-          <span className="text-sm text-gray-500 ml-2">Max: {max}</span>
-        )}
+        {max > 0 && <span className="text-sm text-gray-500 ml-2">Max: {max}</span>}
       </div>
     </div>
   )

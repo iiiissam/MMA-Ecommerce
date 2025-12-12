@@ -46,12 +46,12 @@ export default function AdminProductsPage() {
       setLoading(false)
     }
   }
-  
+
   const totalPages = Math.ceil(totalProducts / itemsPerPage)
 
   const handleDelete = async (slug: string) => {
     if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit?')) return
-    
+
     try {
       await api.delete(`/admin/products/${slug}/`)
       fetchProducts(currentPage)
@@ -60,25 +60,33 @@ export default function AdminProductsPage() {
     }
   }
 
-  if (loading) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-gray-600 text-lg">Loading...</div>
-    </div>
-  )
-  if (error) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-red-600 text-lg">{error}</div>
-    </div>
-  )
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-gray-600 text-lg">Loading...</div>
+      </div>
+    )
+  if (error)
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-red-600 text-lg">{error}</div>
+      </div>
+    )
 
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/dashboard" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/dashboard"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Admin Dashboard
           </Link>
-          <Link href="/admin" className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition">
+          <Link
+            href="/admin"
+            className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition"
+          >
             Logout
           </Link>
         </div>
@@ -98,30 +106,54 @@ export default function AdminProductsPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">ID</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Title</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Brand</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  ID
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Title
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Brand
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {products.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
-                    No products found. <Link href="/admin/products/new" className="text-primary-600 hover:text-primary-700 font-medium">Create your first product</Link>
+                    No products found.{' '}
+                    <Link
+                      href="/admin/products/new"
+                      className="text-primary-600 hover:text-primary-700 font-medium"
+                    >
+                      Create your first product
+                    </Link>
                   </td>
                 </tr>
               ) : (
                 products.map((product) => (
                   <tr key={product.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">{product.id}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
+                      {product.id}
+                    </td>
                     <td className="px-6 py-4 text-sm text-gray-900 font-medium">{product.title}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{product.brand || '-'}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {product.brand || '-'}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                        product.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
+                      <span
+                        className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                          product.is_active
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
                         {product.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </td>
@@ -151,7 +183,7 @@ export default function AdminProductsPage() {
             </tbody>
           </table>
         </div>
-        
+
         {/* Pagination */}
         {totalProducts > itemsPerPage && (
           <div className="flex justify-center items-center gap-3 mt-6">
@@ -162,7 +194,7 @@ export default function AdminProductsPage() {
             >
               ← Précédent
             </button>
-            
+
             <div className="flex items-center gap-3">
               <span className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg shadow-md min-w-[100px] text-center">
                 Page {currentPage}
@@ -171,7 +203,7 @@ export default function AdminProductsPage() {
                 sur {totalPages} ({totalProducts} produits)
               </span>
             </div>
-            
+
             <button
               onClick={() => fetchProducts(currentPage + 1)}
               disabled={!hasNext}
@@ -185,4 +217,3 @@ export default function AdminProductsPage() {
     </div>
   )
 }
-

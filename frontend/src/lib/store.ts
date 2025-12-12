@@ -30,9 +30,7 @@ export const useCartStore = create<CartStore>()(
         if (existing) {
           set({
             items: items.map((i) =>
-              i.variant_id === item.variant_id
-                ? { ...i, quantity: i.quantity + item.quantity }
-                : i
+              i.variant_id === item.variant_id ? { ...i, quantity: i.quantity + item.quantity } : i
             ),
           })
         } else {
@@ -47,9 +45,7 @@ export const useCartStore = create<CartStore>()(
           get().removeItem(variantId)
         } else {
           set({
-            items: get().items.map((i) =>
-              i.variant_id === variantId ? { ...i, quantity } : i
-            ),
+            items: get().items.map((i) => (i.variant_id === variantId ? { ...i, quantity } : i)),
           })
         }
       },
@@ -59,7 +55,7 @@ export const useCartStore = create<CartStore>()(
       },
       getTotalPrice: () => {
         return get().items.reduce(
-          (sum, item) => sum + (parseFloat(item.price || '0') * item.quantity),
+          (sum, item) => sum + parseFloat(item.price || '0') * item.quantity,
           0
         )
       },
@@ -70,4 +66,3 @@ export const useCartStore = create<CartStore>()(
     }
   )
 )
-

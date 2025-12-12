@@ -72,15 +72,20 @@ export default function SearchPage() {
             className="inline-flex items-center gap-2 text-rose-600 hover:text-rose-700 font-medium mb-4 transition"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M15 19l-7-7 7-7"
+              />
             </svg>
             Retour à l'accueil
           </Link>
-          
+
           <h1 className="text-4xl font-serif font-bold text-gray-900 mb-3">
             Résultats de recherche
           </h1>
-          
+
           {searchQuery ? (
             <p className="text-xl text-gray-600">
               Recherche pour: <span className="font-semibold text-gray-900">"{searchQuery}"</span>
@@ -122,20 +127,33 @@ export default function SearchPage() {
         {/* Results */}
         {!searchQuery ? (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <svg className="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            <svg
+              className="w-24 h-24 mx-auto text-gray-300 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              />
             </svg>
             <h3 className="text-2xl font-semibold text-gray-900 mb-2">Commencez votre recherche</h3>
-            <p className="text-gray-600 mb-6">Entrez un terme de recherche pour trouver des produits</p>
+            <p className="text-gray-600 mb-6">
+              Entrez un terme de recherche pour trouver des produits
+            </p>
           </div>
         ) : products.length > 0 ? (
           <>
             <div className="mb-6">
               <p className="text-gray-600">
-                <span className="font-semibold text-gray-900">{products.length}</span> produit(s) trouvé(s)
+                <span className="font-semibold text-gray-900">{products.length}</span> produit(s)
+                trouvé(s)
               </p>
             </div>
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8">
               {products.map((product) => (
                 <ProductCard key={product.id} product={product} />
@@ -152,7 +170,7 @@ export default function SearchPage() {
                 >
                   ← Précédent
                 </button>
-                
+
                 <div className="flex items-center gap-3">
                   <span className="px-4 py-2 bg-gradient-to-r from-rose-500 to-rose-600 text-white font-semibold rounded-lg shadow-md min-w-[100px] text-center">
                     Page {currentPage}
@@ -161,7 +179,7 @@ export default function SearchPage() {
                     sur {totalPages} ({totalCount} résultats)
                   </span>
                 </div>
-                
+
                 <button
                   onClick={() => handlePageChange(currentPage + 1)}
                   disabled={!hasNext}
@@ -174,8 +192,18 @@ export default function SearchPage() {
           </>
         ) : (
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
-            <svg className="w-24 h-24 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg
+              className="w-24 h-24 mx-auto text-gray-300 mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <h3 className="text-2xl font-semibold text-gray-900 mb-2">Aucun résultat trouvé</h3>
             <p className="text-gray-600 mb-6">

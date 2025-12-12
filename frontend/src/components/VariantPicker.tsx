@@ -8,25 +8,21 @@ interface VariantPickerProps {
   onSelect: (variant: ProductVariant) => void
 }
 
-export default function VariantPicker({
-  variants,
-  selectedVariant,
-  onSelect,
-}: VariantPickerProps) {
+export default function VariantPicker({ variants, selectedVariant, onSelect }: VariantPickerProps) {
   const sizes = [...new Set(variants.map((v) => v.size).filter(Boolean))]
   const colors = [...new Set(variants.map((v) => v.color).filter(Boolean))]
 
   const handleSizeSelect = (size: string) => {
-    const variant = variants.find(
-      (v) => v.size === size && v.color === selectedVariant?.color
-    ) || variants.find((v) => v.size === size)
+    const variant =
+      variants.find((v) => v.size === size && v.color === selectedVariant?.color) ||
+      variants.find((v) => v.size === size)
     if (variant) onSelect(variant)
   }
 
   const handleColorSelect = (color: string) => {
-    const variant = variants.find(
-      (v) => v.color === color && v.size === selectedVariant?.size
-    ) || variants.find((v) => v.color === color)
+    const variant =
+      variants.find((v) => v.color === color && v.size === selectedVariant?.size) ||
+      variants.find((v) => v.color === color)
     if (variant) onSelect(variant)
   }
 
@@ -40,7 +36,7 @@ export default function VariantPicker({
               const variant = variants.find((v) => v.size === size)
               const isSelected = selectedVariant?.size === size
               const isAvailable = variant?.is_in_stock ?? true
-              
+
               return (
                 <button
                   key={size}
@@ -50,8 +46,8 @@ export default function VariantPicker({
                     isSelected
                       ? 'border-rose-600 bg-rose-50 text-rose-700 ring-2 ring-rose-200'
                       : isAvailable
-                      ? 'border-gray-300 hover:border-rose-400 hover:bg-rose-50 text-gray-700'
-                      : 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-50'
+                        ? 'border-gray-300 hover:border-rose-400 hover:bg-rose-50 text-gray-700'
+                        : 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-50'
                   }`}
                 >
                   {size}
@@ -70,7 +66,7 @@ export default function VariantPicker({
               const variant = variants.find((v) => v.color === color)
               const isSelected = selectedVariant?.color === color
               const isAvailable = variant?.is_in_stock ?? true
-              
+
               return (
                 <button
                   key={color}
@@ -80,8 +76,8 @@ export default function VariantPicker({
                     isSelected
                       ? 'border-rose-600 bg-rose-50 text-rose-700 ring-2 ring-rose-200'
                       : isAvailable
-                      ? 'border-gray-300 hover:border-rose-400 hover:bg-rose-50 text-gray-700'
-                      : 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-50'
+                        ? 'border-gray-300 hover:border-rose-400 hover:bg-rose-50 text-gray-700'
+                        : 'border-gray-200 bg-gray-50 text-gray-400 cursor-not-allowed opacity-50'
                   }`}
                 >
                   {color}

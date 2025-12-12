@@ -8,9 +8,9 @@ export const revalidate = 60 // Revalidate every 60 seconds
 export default async function HomePage() {
   let products = []
   let categories = []
-  
+
   try {
-    [products, categories] = await Promise.all([
+    ;[products, categories] = await Promise.all([
       getProducts({ limit: 100 }), // Get more products to randomize from
       getCategories(),
     ])
@@ -59,7 +59,9 @@ export default async function HomePage() {
       {categories.length > 0 && (
         <section className="container mx-auto px-4 py-20">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">Parcourir par Catégorie</h2>
+            <h2 className="text-4xl font-serif font-bold text-gray-900 mb-4">
+              Parcourir par Catégorie
+            </h2>
             <p className="text-gray-600 text-lg">Trouvez votre style parfait</p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -80,7 +82,9 @@ export default async function HomePage() {
                     />
                   ) : (
                     <div className="text-center p-6 z-10">
-                      <h3 className="text-2xl font-serif font-bold text-gray-900 mb-2">{category.name}</h3>
+                      <h3 className="text-2xl font-serif font-bold text-gray-900 mb-2">
+                        {category.name}
+                      </h3>
                       {category.description && (
                         <p className="text-sm text-gray-600">{category.description}</p>
                       )}
@@ -88,9 +92,7 @@ export default async function HomePage() {
                   )}
                 </div>
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end justify-center pb-6">
-                  <span className="text-white font-semibold text-lg">
-                    {category.name}
-                  </span>
+                  <span className="text-white font-semibold text-lg">{category.name}</span>
                 </div>
               </Link>
             ))}
@@ -117,7 +119,12 @@ export default async function HomePage() {
             >
               Voir Tous les Produits
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </Link>
           </div>
@@ -129,8 +136,18 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="text-center p-8 rounded-2xl bg-white border border-gray-200 hover:border-rose-300 transition-all">
             <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              <svg
+                className="w-8 h-8 text-rose-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Livraison Gratuite</h3>
@@ -138,8 +155,18 @@ export default async function HomePage() {
           </div>
           <div className="text-center p-8 rounded-2xl bg-white border border-gray-200 hover:border-rose-300 transition-all">
             <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-8 h-8 text-rose-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Retours Faciles</h3>
@@ -147,8 +174,18 @@ export default async function HomePage() {
           </div>
           <div className="text-center p-8 rounded-2xl bg-white border border-gray-200 hover:border-rose-300 transition-all">
             <div className="w-16 h-16 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              <svg
+                className="w-8 h-8 text-rose-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                />
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-2">Paiement Sécurisé</h3>

@@ -173,15 +173,14 @@ export async function getWilayas(): Promise<Array<{ id: number; name: string }>>
   return response.data.results || response.data
 }
 
-export async function getBaladiyas(wilayaId: number): Promise<Array<{ id: number; name: string; wilaya: number }>> {
+export async function getBaladiyas(
+  wilayaId: number
+): Promise<Array<{ id: number; name: string; wilaya: number }>> {
   const response = await api.get(`/baladiyas/?wilaya=${wilayaId}`)
   return response.data.results || response.data
 }
 
-export async function getOrderByReference(
-  reference: string,
-  email: string
-): Promise<Order> {
+export async function getOrderByReference(reference: string, email: string): Promise<Order> {
   const response = await api.get(`/orders/${reference}/`, {
     params: { email },
   })
@@ -213,6 +212,4 @@ api.interceptors.request.use((config) => {
   return config
 })
 
-
 export default api
-

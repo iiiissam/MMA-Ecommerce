@@ -60,7 +60,7 @@ export default function AdminClientsPage() {
       month: 'short',
       day: 'numeric',
       hour: '2-digit',
-      minute: '2-digit'
+      minute: '2-digit',
     })
   }
 
@@ -81,29 +81,27 @@ export default function AdminClientsPage() {
             <h1 className="text-3xl font-bold text-gray-900">Clients</h1>
             <p className="text-gray-600 mt-1">Comptes clients enregistrés (lecture seule)</p>
           </div>
-          <Link
-            href="/admin/dashboard"
-            className="text-gray-600 hover:text-gray-900"
-          >
+          <Link href="/admin/dashboard" className="text-gray-600 hover:text-gray-900">
             ← Retour au tableau de bord
           </Link>
         </div>
 
-        {error && (
-          <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">
-            {error}
-          </div>
-        )}
+        {error && <div className="mb-4 p-4 bg-red-100 text-red-700 rounded-lg">{error}</div>}
 
         {/* Info Banner */}
         <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-800">
           <p className="flex items-center gap-2">
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
             </svg>
             <span>
-              <strong>Note:</strong> Ce système d'authentification est à des fins éducatives uniquement. 
-              Les comptes clients ne sont pas liés aux commandes.
+              <strong>Note:</strong> Ce système d'authentification est à des fins éducatives
+              uniquement. Les comptes clients ne sont pas liés aux commandes.
             </span>
           </p>
         </div>
@@ -116,7 +114,9 @@ export default function AdminClientsPage() {
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <p className="text-sm text-gray-500">Clients Actifs</p>
-            <p className="text-3xl font-bold text-green-600">{clients.filter(c => c.is_active).length}</p>
+            <p className="text-3xl font-bold text-green-600">
+              {clients.filter((c) => c.is_active).length}
+            </p>
           </div>
           <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
             <p className="text-sm text-gray-500">Cette Page</p>
@@ -131,9 +131,7 @@ export default function AdminClientsPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600 mx-auto"></div>
             </div>
           ) : clients.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
-              Aucun client enregistré
-            </div>
+            <div className="p-8 text-center text-gray-500">Aucun client enregistré</div>
           ) : (
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
@@ -176,11 +174,13 @@ export default function AdminClientsPage() {
                         {client.phone || '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          client.is_active
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}>
+                        <span
+                          className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                            client.is_active
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}
+                        >
                           {client.is_active ? 'Actif' : 'Inactif'}
                         </span>
                       </td>
@@ -208,7 +208,7 @@ export default function AdminClientsPage() {
             >
               ← Précédent
             </button>
-            
+
             <div className="flex items-center gap-3">
               <span className="px-4 py-2 bg-gray-800 text-white font-semibold rounded-lg shadow-md min-w-[100px] text-center">
                 Page {currentPage}
@@ -217,7 +217,7 @@ export default function AdminClientsPage() {
                 sur {totalPages} ({totalClients} clients)
               </span>
             </div>
-            
+
             <button
               onClick={() => fetchClients(currentPage + 1)}
               disabled={!hasNext}
@@ -231,4 +231,3 @@ export default function AdminClientsPage() {
     </div>
   )
 }
-

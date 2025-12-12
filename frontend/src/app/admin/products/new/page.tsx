@@ -54,18 +54,18 @@ export default function NewProductPage() {
   }
 
   const handleCategoryChange = (categoryId: number) => {
-    const selectedCategory = categories.find(c => c.id === categoryId)
-    
+    const selectedCategory = categories.find((c) => c.id === categoryId)
+
     if (formData.categories.includes(categoryId)) {
       // Removing category - also remove parent if it was auto-added
       const categoriesToRemove = [categoryId]
       if (selectedCategory?.parent) {
         categoriesToRemove.push(selectedCategory.parent)
       }
-      
-      setFormData(prev => ({
+
+      setFormData((prev) => ({
         ...prev,
-        categories: prev.categories.filter(id => !categoriesToRemove.includes(id))
+        categories: prev.categories.filter((id) => !categoriesToRemove.includes(id)),
       }))
     } else {
       // Adding category - also add parent if exists
@@ -73,22 +73,27 @@ export default function NewProductPage() {
       if (selectedCategory?.parent) {
         categoriesToAdd.push(selectedCategory.parent)
       }
-      
-      setFormData(prev => ({
+
+      setFormData((prev) => ({
         ...prev,
-        categories: [...new Set([...prev.categories, ...categoriesToAdd])]
+        categories: [...new Set([...prev.categories, ...categoriesToAdd])],
       }))
     }
   }
-  
+
   // Only show child categories (subcategories)
-  const childCategories = categories.filter(cat => cat.parent !== null && cat.parent !== undefined)
+  const childCategories = categories.filter(
+    (cat) => cat.parent !== null && cat.parent !== undefined
+  )
 
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/products" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/products"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Back to Products
           </Link>
         </div>
@@ -96,7 +101,10 @@ export default function NewProductPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Add New Product</h1>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-6"
+        >
           <div>
             <label className="block text-sm font-medium mb-2 text-gray-700">Title *</label>
             <input
@@ -131,39 +139,47 @@ export default function NewProductPage() {
 
           <div>
             <label className="block text-sm font-semibold mb-2 text-gray-900">Catégories</label>
-            <p className="text-sm text-gray-600 mb-3">Sélectionnez une sous-catégorie (la catégorie parent sera automatiquement ajoutée)</p>
+            <p className="text-sm text-gray-600 mb-3">
+              Sélectionnez une sous-catégorie (la catégorie parent sera automatiquement ajoutée)
+            </p>
             <div className="space-y-2 max-h-60 overflow-y-auto border-2 border-gray-300 rounded-lg p-4 bg-white">
-              {childCategories.length > 0 ? childCategories.map((category) => {
-                const parentCategory = categories.find(c => c.id === category.parent)
-                return (
-                  <label key={category.id} className="flex items-center text-gray-900 cursor-pointer hover:bg-rose-50 p-3 rounded-lg transition border border-transparent hover:border-rose-200">
-                    <input
-                      type="checkbox"
-                      checked={formData.categories.includes(category.id)}
-                      onChange={() => handleCategoryChange(category.id)}
-                      className="mr-3 w-5 h-5 text-rose-600 border-gray-300 rounded focus:ring-rose-500"
-                    />
-                    <div>
-                      <div className="font-medium">{category.name}</div>
-                      {parentCategory && (
-                        <div className="text-xs text-gray-500">
-                          dans {parentCategory.name}
-                        </div>
-                      )}
-                    </div>
-                  </label>
-                )
-              }) : (
+              {childCategories.length > 0 ? (
+                childCategories.map((category) => {
+                  const parentCategory = categories.find((c) => c.id === category.parent)
+                  return (
+                    <label
+                      key={category.id}
+                      className="flex items-center text-gray-900 cursor-pointer hover:bg-rose-50 p-3 rounded-lg transition border border-transparent hover:border-rose-200"
+                    >
+                      <input
+                        type="checkbox"
+                        checked={formData.categories.includes(category.id)}
+                        onChange={() => handleCategoryChange(category.id)}
+                        className="mr-3 w-5 h-5 text-rose-600 border-gray-300 rounded focus:ring-rose-500"
+                      />
+                      <div>
+                        <div className="font-medium">{category.name}</div>
+                        {parentCategory && (
+                          <div className="text-xs text-gray-500">dans {parentCategory.name}</div>
+                        )}
+                      </div>
+                    </label>
+                  )
+                })
+              ) : (
                 <p className="text-gray-500 text-center py-4">Aucune sous-catégorie disponible</p>
               )}
             </div>
             {formData.categories.length > 0 && (
               <div className="mt-3 text-sm text-gray-600">
                 <strong>Catégories sélectionnées:</strong>{' '}
-                {formData.categories.map(id => {
-                  const cat = categories.find(c => c.id === id)
-                  return cat?.name
-                }).filter(Boolean).join(', ')}
+                {formData.categories
+                  .map((id) => {
+                    const cat = categories.find((c) => c.id === id)
+                    return cat?.name
+                  })
+                  .filter(Boolean)
+                  .join(', ')}
               </div>
             )}
           </div>
@@ -182,7 +198,8 @@ export default function NewProductPage() {
 
           <div className="pt-4 border-t border-gray-200">
             <p className="text-sm text-gray-600 mb-4">
-              After creating the product, you'll be able to add variants (with prices, stock, and images).
+              After creating the product, you'll be able to add variants (with prices, stock, and
+              images).
             </p>
             <div className="flex gap-4">
               <button
@@ -205,4 +222,3 @@ export default function NewProductPage() {
     </div>
   )
 }
-

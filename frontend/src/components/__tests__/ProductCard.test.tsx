@@ -36,4 +36,3 @@ describe('ProductCard', () => {
     expect(screen.getByText(/29.99/)).toBeInTheDocument()
   })
 })
-

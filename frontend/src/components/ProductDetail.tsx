@@ -61,7 +61,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
       })
       // Show success message with link to cart
       const message = document.createElement('div')
-      message.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-sm'
+      message.className =
+        'fixed top-4 right-4 bg-green-500 text-white px-6 py-4 rounded-lg shadow-lg z-50 max-w-sm'
       message.innerHTML = `
         <div class="flex items-center gap-3">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -80,7 +81,7 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         }
       }, 3000)
     } catch (error) {
-      alert('Échec de l\'ajout au panier')
+      alert("Échec de l'ajout au panier")
     } finally {
       setAddingToCart(false)
     }
@@ -205,7 +206,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                   {parseFloat(selectedVariant.price).toFixed(2)} DA
                 </span>
                 {selectedVariant.compare_at_price &&
-                  parseFloat(selectedVariant.compare_at_price) > parseFloat(selectedVariant.price) && (
+                  parseFloat(selectedVariant.compare_at_price) >
+                    parseFloat(selectedVariant.price) && (
                     <>
                       <span className="text-2xl text-gray-400 line-through">
                         {parseFloat(selectedVariant.compare_at_price).toFixed(2)} DA
@@ -250,7 +252,8 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                         <>
                           <span className="w-3 h-3 bg-green-500 rounded-full"></span>
                           <p className="text-sm font-semibold text-gray-900">
-                            <span className="text-rose-600">{selectedVariant.stock_quantity}</span> en stock
+                            <span className="text-rose-600">{selectedVariant.stock_quantity}</span>{' '}
+                            en stock
                           </p>
                         </>
                       ) : (
@@ -261,10 +264,14 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                       )}
                     </div>
                     {selectedVariant.is_low_stock && selectedVariant.is_in_stock && (
-                      <p className="text-sm text-orange-700 font-semibold bg-orange-50 px-3 py-2 rounded">⚠️ Stock limité - Commandez vite!</p>
+                      <p className="text-sm text-orange-700 font-semibold bg-orange-50 px-3 py-2 rounded">
+                        ⚠️ Stock limité - Commandez vite!
+                      </p>
                     )}
                     {selectedVariant.sku && (
-                      <p className="text-xs text-gray-600 font-medium">Réf: <span className="font-mono">{selectedVariant.sku}</span></p>
+                      <p className="text-xs text-gray-600 font-medium">
+                        Réf: <span className="font-mono">{selectedVariant.sku}</span>
+                      </p>
                     )}
                   </div>
                 )}
@@ -310,10 +317,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
                           return
                         }
                         if (selectedVariant.stock_quantity < quantity) {
-                          alert(`Seulement ${selectedVariant.stock_quantity} articles disponibles en stock`)
+                          alert(
+                            `Seulement ${selectedVariant.stock_quantity} articles disponibles en stock`
+                          )
                           return
                         }
-                        
+
                         // Add to cart and redirect to checkout
                         addItem({
                           variant_id: selectedVariant.id,

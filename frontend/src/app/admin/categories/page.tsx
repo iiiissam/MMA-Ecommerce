@@ -43,20 +43,27 @@ export default function AdminCategoriesPage() {
     }
   }
 
-  if (loading) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-gray-600 text-lg">Loading...</div>
-    </div>
-  )
+  if (loading)
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-gray-600 text-lg">Loading...</div>
+      </div>
+    )
 
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/dashboard" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/dashboard"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Admin Dashboard
           </Link>
-          <Link href="/admin" className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition">
+          <Link
+            href="/admin"
+            className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition"
+          >
             Logout
           </Link>
         </div>
@@ -76,28 +83,50 @@ export default function AdminCategoriesPage() {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Slug</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Slug
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {categories.length === 0 ? (
                 <tr>
                   <td colSpan={4} className="px-6 py-8 text-center text-gray-500">
-                    No categories found. <Link href="/admin/categories/new" className="text-primary-600 hover:text-primary-700 font-medium">Create your first category</Link>
+                    No categories found.{' '}
+                    <Link
+                      href="/admin/categories/new"
+                      className="text-primary-600 hover:text-primary-700 font-medium"
+                    >
+                      Create your first category
+                    </Link>
                   </td>
                 </tr>
               ) : (
                 categories.map((category) => (
                   <tr key={category.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{category.name}</td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{category.slug}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {category.name}
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                      {category.slug}
+                    </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <span className={`px-3 py-1 text-xs font-semibold rounded-full ${
-                        category.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                      }`}>
+                      <span
+                        className={`px-3 py-1 text-xs font-semibold rounded-full ${
+                          category.is_active
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}
+                      >
                         {category.is_active ? 'Active' : 'Inactive'}
                       </span>
                     </td>
@@ -125,4 +154,3 @@ export default function AdminCategoriesPage() {
     </div>
   )
 }
-

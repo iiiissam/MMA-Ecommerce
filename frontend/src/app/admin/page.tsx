@@ -60,7 +60,9 @@ export default function AdminLoginPage() {
         )}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-semibold mb-2 text-gray-700">Nom d'utilisateur</label>
+            <label className="block text-sm font-semibold mb-2 text-gray-700">
+              Nom d'utilisateur
+            </label>
             <input
               type="text"
               value={username}

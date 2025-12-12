@@ -50,9 +50,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.title}
         </h3>
         <div className="flex items-center gap-2">
-          <p className="text-xl font-bold text-gray-900">
-            {parseFloat(price).toFixed(2)} DA
-          </p>
+          <p className="text-xl font-bold text-gray-900">{parseFloat(price).toFixed(2)} DA</p>
           {hasDiscount && comparePrice && (
             <p className="text-sm text-gray-400 line-through">
               {parseFloat(comparePrice).toFixed(2)} DA
@@ -61,21 +59,25 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
         {product.min_price && product.max_price && product.min_price !== product.max_price && (
           <p className="text-sm text-gray-500 mt-1">
-            De {parseFloat(product.min_price).toFixed(2)} - {parseFloat(product.max_price).toFixed(2)} DA
+            De {parseFloat(product.min_price).toFixed(2)} -{' '}
+            {parseFloat(product.max_price).toFixed(2)} DA
           </p>
         )}
         {product.variants && product.variants.length > 0 && (
           <div className="mt-3 flex gap-2">
-            {product.variants.slice(0, 3).map((variant) => (
-              variant.color && (
-                <div
-                  key={variant.id}
-                  className="w-6 h-6 rounded-full border-2 border-gray-200 shadow-sm"
-                  style={{ backgroundColor: variant.color }}
-                  title={variant.color}
-                />
-              )
-            ))}
+            {product.variants
+              .slice(0, 3)
+              .map(
+                (variant) =>
+                  variant.color && (
+                    <div
+                      key={variant.id}
+                      className="w-6 h-6 rounded-full border-2 border-gray-200 shadow-sm"
+                      style={{ backgroundColor: variant.color }}
+                      title={variant.color}
+                    />
+                  )
+              )}
           </div>
         )}
       </div>

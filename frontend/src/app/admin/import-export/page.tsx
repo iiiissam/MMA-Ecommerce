@@ -76,10 +76,16 @@ export default function AdminImportExportPage() {
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/dashboard" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/dashboard"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Admin Dashboard
           </Link>
-          <Link href="/admin" className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition">
+          <Link
+            href="/admin"
+            className="text-red-600 hover:text-red-700 font-medium px-4 py-2 rounded hover:bg-red-50 transition"
+          >
             Logout
           </Link>
         </div>
@@ -92,7 +98,8 @@ export default function AdminImportExportPage() {
           <div className="bg-white rounded-lg shadow-md border border-gray-200 p-6">
             <h2 className="text-xl font-semibold mb-4 text-gray-800">Import Products (CSV)</h2>
             <p className="text-sm text-gray-600 mb-4">
-              Upload a CSV file to import products. CSV should include columns: title, slug, description, brand, sku, size, color, price, stock_quantity
+              Upload a CSV file to import products. CSV should include columns: title, slug,
+              description, brand, sku, size, color, price, stock_quantity
             </p>
             <div className="space-y-4">
               <input
@@ -115,7 +122,9 @@ export default function AdminImportExportPage() {
                   </p>
                   {importResult.errors && importResult.errors.length > 0 && (
                     <div className="mt-2">
-                      <p className="text-red-800"><strong>Errors:</strong></p>
+                      <p className="text-red-800">
+                        <strong>Errors:</strong>
+                      </p>
                       <ul className="list-disc list-inside text-sm">
                         {importResult.errors.slice(0, 5).map((error: string, idx: number) => (
                           <li key={idx}>{error}</li>
@@ -146,4 +155,3 @@ export default function AdminImportExportPage() {
     </div>
   )
 }
-

@@ -11,11 +11,7 @@ export const metadata: Metadata = {
   description: 'Shop the latest fashion trends',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className={inter.className}>
@@ -26,4 +22,3 @@ export default function RootLayout({
     </html>
   )
 }
-

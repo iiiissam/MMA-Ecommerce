@@ -35,7 +35,7 @@ jobs:
         run: isort --check-only .
       - name: Run Flake8
         working-directory: ./backend
-        run: flake8 . --max-line-length=100 --exclude=migrations
+        run: flake8 .
 
   lint-frontend:
     runs-on: ubuntu-latest

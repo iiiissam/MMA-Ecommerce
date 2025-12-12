@@ -25,20 +25,13 @@ export default function OrderSuccessPage() {
             stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M5 13l4 4L19 7"
-            />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        
+
         <h1 className="text-4xl font-serif font-bold text-gray-900 mb-4">Commande Confirmée!</h1>
-        <p className="text-xl text-gray-600 mb-2">
-          Merci pour votre achat
-        </p>
-        
+        <p className="text-xl text-gray-600 mb-2">Merci pour votre achat</p>
+
         {reference && (
           <div className="bg-rose-50 rounded-xl p-6 mb-8 mt-6 border border-rose-200">
             <p className="text-sm text-gray-600 mb-2">Référence de Commande</p>
@@ -57,10 +50,7 @@ export default function OrderSuccessPage() {
             Continuer vos Achats
           </Link>
           <div>
-            <Link
-              href="/"
-              className="text-rose-600 hover:text-rose-700 font-medium"
-            >
+            <Link href="/" className="text-rose-600 hover:text-rose-700 font-medium">
               Retour à l'Accueil
             </Link>
           </div>

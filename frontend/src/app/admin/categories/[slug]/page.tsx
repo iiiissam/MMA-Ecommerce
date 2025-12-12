@@ -82,17 +82,21 @@ export default function EditCategoryPage() {
     }
   }
 
-  if (!category) return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="text-gray-600 text-lg">Loading...</div>
-    </div>
-  )
+  if (!category)
+    return (
+      <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+        <div className="text-gray-600 text-lg">Loading...</div>
+      </div>
+    )
 
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-md border-b">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <Link href="/admin/categories" className="text-2xl font-bold text-gray-800 hover:text-primary-600">
+          <Link
+            href="/admin/categories"
+            className="text-2xl font-bold text-gray-800 hover:text-primary-600"
+          >
             ← Back to Categories
           </Link>
         </div>
@@ -100,7 +104,10 @@ export default function EditCategoryPage() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold mb-6 text-gray-800">Edit Category</h1>
 
-        <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white rounded-lg shadow-md border border-gray-200 p-6 space-y-6"
+        >
           <div>
             <label className="block text-sm font-medium mb-2 text-gray-700">Name *</label>
             <input
@@ -130,11 +137,13 @@ export default function EditCategoryPage() {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-primary-500"
             >
               <option value="">None (Top Level)</option>
-              {categories.filter(cat => cat.id !== category.id).map((cat) => (
-                <option key={cat.id} value={cat.id}>
-                  {cat.name}
-                </option>
-              ))}
+              {categories
+                .filter((cat) => cat.id !== category.id)
+                .map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
             </select>
           </div>
 
@@ -180,4 +189,3 @@ export default function EditCategoryPage() {
     </div>
   )
 }
-
