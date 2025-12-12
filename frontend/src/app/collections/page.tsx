@@ -9,13 +9,14 @@ import Link from 'next/link'
 
 interface CategoryTreeProps {
   category: CategoryType
-  children: CategoryType[]
   level?: number
+  allCategories: CategoryType[]
 }
 
-function CategoryTree({ category, children, level = 0 }: CategoryTreeProps) {
+function CategoryTree({ category, level = 0, allCategories }: CategoryTreeProps) {
   const [isOpen, setIsOpen] = useState(true)
-  const hasChildren = children.length > 0
+  const childCategories = allCategories.filter((cat) => cat.parent === category.id)
+  const hasChildren = childCategories.length > 0
 
   return (
     <div className={level > 0 ? 'ml-4' : ''}>
@@ -72,8 +73,13 @@ function CategoryTree({ category, children, level = 0 }: CategoryTreeProps) {
 
       {hasChildren && isOpen && (
         <div className="mt-1 space-y-1">
-          {children.map((child) => (
-            <CategoryTree key={child.id} category={child} children={[]} level={level + 1} />
+          {childCategories.map((child) => (
+            <CategoryTree
+              key={child.id}
+              category={child}
+              level={level + 1}
+              allCategories={allCategories}
+            />
           ))}
         </div>
       )}
@@ -97,6 +103,7 @@ export default function CollectionsPage() {
     const page = parseInt(searchParams.get('page') || '1')
     setCurrentPage(page)
     fetchData(page)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams])
 
   const fetchData = async (page: number) => {
@@ -139,9 +146,6 @@ export default function CollectionsPage() {
 
   // Build category tree
   const parentCategories = categories.filter((cat) => !cat.parent)
-  const getCategoryChildren = (parentId: number) => {
-    return categories.filter((cat) => cat.parent === parentId)
-  }
 
   if (loading) {
     return (
@@ -206,7 +210,7 @@ export default function CollectionsPage() {
                     <CategoryTree
                       key={category.id}
                       category={category}
-                      children={getCategoryChildren(category.id)}
+                      allCategories={categories}
                     />
                   ))}
                 </div>

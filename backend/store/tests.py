@@ -9,8 +9,7 @@ from django.test import TestCase
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from .models import (Baladiya, Category, Client, Order, Product, ProductVariant,
-                     Wilaya)
+from .models import Baladiya, Category, Client, Order, Product, ProductVariant, Wilaya
 
 
 class CategoryModelTest(TestCase):

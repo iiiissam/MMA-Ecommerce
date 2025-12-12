@@ -48,6 +48,7 @@ export default function VariantsPage() {
       return
     }
     fetchProduct()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slug])
 
   const fetchProduct = async () => {

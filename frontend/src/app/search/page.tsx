@@ -26,6 +26,7 @@ export default function SearchPage() {
     } else {
       setLoading(false)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, searchParams])
 
   const fetchProducts = async (page: number) => {
