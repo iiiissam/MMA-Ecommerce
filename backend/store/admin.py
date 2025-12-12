@@ -4,20 +4,9 @@ Django admin configuration for store models.
 
 from django.contrib import admin
 
-from .models import (
-    AuditLog,
-    Baladiya,
-    Category,
-    Client,
-    ClientToken,
-    Order,
-    OrderLine,
-    Product,
-    ProductCategory,
-    ProductImage,
-    ProductVariant,
-    Wilaya,
-)
+from .models import (AuditLog, Baladiya, Category, Client, ClientToken, Order,
+                     OrderLine, Product, ProductCategory, ProductImage,
+                     ProductVariant, Wilaya)
 
 
 @admin.register(Category)

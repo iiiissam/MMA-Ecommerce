@@ -5,20 +5,9 @@ Serializers for the store API.
 from django.contrib.auth.hashers import check_password, make_password
 from rest_framework import serializers
 
-from .models import (
-    AuditLog,
-    Baladiya,
-    Category,
-    Client,
-    ClientToken,
-    Order,
-    OrderLine,
-    Product,
-    ProductCategory,
-    ProductImage,
-    ProductVariant,
-    Wilaya,
-)
+from .models import (AuditLog, Baladiya, Category, Client, ClientToken, Order,
+                     OrderLine, Product, ProductCategory, ProductImage,
+                     ProductVariant, Wilaya)
 
 
 class CategorySerializer(serializers.ModelSerializer):

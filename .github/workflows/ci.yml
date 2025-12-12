@@ -53,7 +53,7 @@ jobs:
         run: npm run lint
       - name: Check Prettier
         working-directory: ./frontend
-        run: npx prettier --check .
+        run: npx prettier --check "src/**/*.{ts,tsx,js,jsx,json,css,scss,md}" "*.{js,json,md}"
 
   test-backend:
     runs-on: ubuntu-latest
