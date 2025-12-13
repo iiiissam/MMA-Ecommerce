@@ -161,12 +161,11 @@ jobs:
         working-directory: ./frontend
         run: npm install
       - name: Run SonarCloud Scan
-        if: ${{ secrets.SONAR_TOKEN != '' }}
         uses: SonarSource/sonarqube-scan-action@v5.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION || 'default-org' }}
         with:
           projectBaseDir: .
 
