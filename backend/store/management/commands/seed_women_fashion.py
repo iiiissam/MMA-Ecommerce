@@ -2,14 +2,8 @@ import random
 
 from django.core.management.base import BaseCommand
 
-from store.models import (
-    Category,
-    Order,
-    OrderLine,
-    Product,
-    ProductImage,
-    ProductVariant,
-)
+from store.models import (Category, Order, OrderLine, Product, ProductImage,
+                          ProductVariant)
 
 
 class Command(BaseCommand):
