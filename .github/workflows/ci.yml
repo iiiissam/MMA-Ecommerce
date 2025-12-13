@@ -32,7 +32,7 @@ jobs:
         run: black --check .
       - name: Run isort
         working-directory: ./backend
-        run: isort --check-only .
+        run: isort --check-only --profile black --line-length 88 .
       - name: Run Flake8
         working-directory: ./backend
         run: flake8 .

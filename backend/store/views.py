@@ -19,17 +19,36 @@ from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import (AuditLog, Baladiya, Category, Client, ClientToken, Order,
-                     OrderLine, Product, ProductVariant, Wilaya)
-from .serializers import (AdminClientSerializer, AdminProductSerializer,
-                          AuditLogSerializer, BaladiyaSerializer,
-                          CategorySerializer, CheckoutSerializer,
-                          ClientLoginSerializer,
-                          ClientPasswordChangeSerializer,
-                          ClientRegisterSerializer, ClientSerializer,
-                          ClientUpdateSerializer, OrderSerializer,
-                          ProductDetailSerializer, ProductSerializer,
-                          ProductVariantSerializer, WilayaSerializer)
+from .models import (
+    AuditLog,
+    Baladiya,
+    Category,
+    Client,
+    ClientToken,
+    Order,
+    OrderLine,
+    Product,
+    ProductVariant,
+    Wilaya,
+)
+from .serializers import (
+    AdminClientSerializer,
+    AdminProductSerializer,
+    AuditLogSerializer,
+    BaladiyaSerializer,
+    CategorySerializer,
+    CheckoutSerializer,
+    ClientLoginSerializer,
+    ClientPasswordChangeSerializer,
+    ClientRegisterSerializer,
+    ClientSerializer,
+    ClientUpdateSerializer,
+    OrderSerializer,
+    ProductDetailSerializer,
+    ProductSerializer,
+    ProductVariantSerializer,
+    WilayaSerializer,
+)
 from .utils import log_admin_action
 
 
