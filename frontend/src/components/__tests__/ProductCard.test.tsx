@@ -2,6 +2,15 @@ import { render, screen } from '@testing-library/react'
 import ProductCard from '../ProductCard'
 import { Product } from '@/lib/api'
 
+// Mock Next.js Image component to avoid fetchPriority warning
+jest.mock('next/image', () => ({
+  __esModule: true,
+  default: (props: any) => {
+    // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
+    return <img {...props} />
+  },
+}))
+
 const mockProduct: Product = {
   id: 1,
   title: 'Test Product',
